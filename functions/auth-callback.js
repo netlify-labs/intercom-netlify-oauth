@@ -19,14 +19,18 @@ exports.handler = (event, context, callback) => {
     if (error) { 
       console.log('Access Token Error', error.message); 
     }
+
+    console.log('token result', result)
     token = oauth2.accessToken.create(result);
 
     var params = params || {};
     var request = require('request');
     var querystring = require('querystring');
-    params['client_id'] = undefined /*clientId*/;
-    params['client_secret'] = undefined /*clientSecret*/;
-    params['app_id']= 'l8ecsskq';
+    
+    params['client_id'] = config.clientID;
+    params['client_secret'] = config.clientSecret;
+    params['app_id']= config.app_id;
+
     var post_data= querystring.stringify(params);
 
     var req_options = {

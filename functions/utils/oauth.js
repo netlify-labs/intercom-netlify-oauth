@@ -4,7 +4,8 @@ export const config = {
   app_id: process.env.INTERCOM_APP_ID,
   clientSecret: process.env.INTERCOM_CLIENT_SECRET,
   clientID: process.env.INTERCOM_CLIENT_ID,
-  authorizationPath: 'https://app.intercom.io/oauth',
+  tokenHost: 'https://app.intercom.io',
+  authorizationPath: '/oauth',
   tokenPath: 'https://api.intercom.io/auth/eagle/token',
   profilePath: 'https://api.intercom.io/me/',
   redirect_uri: 'https://intercom-login-example.netlify.com/.netlify/functions/auth-callback',
@@ -16,8 +17,9 @@ const credentials = {
     secret: config.clientSecret
   },
   auth: {
-    tokenHost: config.authorizationPath,
+    tokenHost: config.tokenHost,
     tokenPath: config.tokenPath,
+    authorizePath: config.authorizationPath
   }
 };
 
