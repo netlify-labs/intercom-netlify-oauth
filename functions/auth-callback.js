@@ -25,8 +25,6 @@ exports.handler = (event, context, callback) => {
     token = oauth2.accessToken.create(result);
 
     var params = params || {};
-    var request = require('request');
-    var querystring = require('querystring');
 
     params['client_id'] = config.clientID;
     params['client_secret'] = config.clientSecret;
