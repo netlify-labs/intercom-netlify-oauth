@@ -5,8 +5,8 @@ export default class App extends Component {
   render() {
     return (
       <div className='app'>
-        Intercom login
-
+        <h1>Intercom login</h1>
+        
         <a href="/.netlify/functions/auth">
           <img 
             src="https://static.intercomassets.com/assets/oauth/primary-7edb2ebce84c088063f4b86049747c3a.png" 
