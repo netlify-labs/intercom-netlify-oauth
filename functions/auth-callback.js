@@ -1,6 +1,6 @@
 import request from 'request'
 import querystring from 'querystring'
-import oauth2, { config } from './utils/oauth2'
+import oauth2, { config } from './utils/oauth'
 
 exports.handler = (event, context, callback) => {
   console.log('event', event)
@@ -26,7 +26,7 @@ exports.handler = (event, context, callback) => {
     var params = params || {};
     var request = require('request');
     var querystring = require('querystring');
-    
+
     params['client_id'] = config.clientID;
     params['client_secret'] = config.clientSecret;
     params['app_id']= config.app_id;
