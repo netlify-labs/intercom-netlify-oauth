@@ -41,10 +41,11 @@ exports.handler = (event, context, callback) => {
 
     var post_data = querystring.stringify(params);
 
+    console.log('token.token.token', token.token.token)
+
     var req_options = {
       url: config.profilePath + "?" + post_data,
       json: true,
-
       auth: {
         user: token.token.token,
         pass: '',
