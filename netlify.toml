@@ -1,9 +1,13 @@
 [build]
-  functions = "functions-build"
   # This will be run the site build
   command = "npm run build"
   # This is the directory is publishing to netlify's CDN
   publish = "build"
+  # Location of built function code
+  functions = "functions-build"
 
 [template.environment]
-  FAUNADB_SECRET = "Your FaunaDB Server Secret"
+ 	# Environment variables needed
+  INTERCOM_APP_ID = "Your Intercom App Id"
+  INTERCOM_CLIENT_ID = "Your Intercom Oauth Client Id"
+  INTERCOM_CLIENT_SECRET = "Your Intercom Oauth Secret"
