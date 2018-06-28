@@ -8,6 +8,14 @@ var authorization_uri = oauth2.authCode.authorizeURL({
 });
 
 exports.handler = (event, context, callback) => {
-  console.log('hi')
+  console.log('authorization_uri', authorization_uri)
   // authorization_uri
+   const response = {
+    statusCode: 301,
+    headers: {
+      Location: authorization_uri,
+    }
+  };
+
+  callback(null, response);
 }
