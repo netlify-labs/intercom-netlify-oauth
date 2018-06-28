@@ -10,13 +10,12 @@
     "simple-oauth2": "^2.2.0"
   },
   "scripts": {
-    "start": "npm-run-all --parallel startApp startServer",
-    "startApp": "react-scripts start",
-    "startServer": "netlify-lambda serve functions -c ./webpack.config.js",
-    "prebuild": "echo 'setup faunaDB' && npm run bootstrap",
+    "start": "npm-run-all --parallel start:**",
+    "start:app": "react-scripts start",
+    "start:server": "netlify-lambda serve functions",
     "build": "npm-run-all --parallel build:**",
     "build:app": "react-scripts build",
-    "build:functions": "netlify-lambda build functions -c ./webpack.config.js",
+    "build:functions": "netlify-lambda build functions",
     "test": "react-scripts test --env=jsdom"
   },
   "devDependencies": {
