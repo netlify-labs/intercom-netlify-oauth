@@ -1,7 +1,9 @@
 import oauth2, { config } from './utils/oauth'
 
+console.log('oauth2', oauth2)
+
 // Authorization uri definition
-var authorization_uri = oauth2.authCode.authorizeURL({
+var authorization_uri = oauth2.authorizationCode.authorizeURL({
   redirect_uri: config.redirect_uri,
   scope: '',
   state: ''
