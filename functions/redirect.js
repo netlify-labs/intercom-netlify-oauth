@@ -2,7 +2,7 @@ exports.handler = (event, context, callback) => {
    const response = {
     statusCode: 301,
     headers: {
-      Location: 'https://netlify.com',
+      Location: 'https://lol.com',
     }
   };
 
