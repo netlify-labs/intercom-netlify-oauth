@@ -14,9 +14,16 @@ exports.handler = (event, context, callback) => {
     client_id: config.clientID,
     client_secret: config.clientSecret,
     app_id: config.app,
-  }, saveToken);
+  }).then((result) => {
+    saveToken(null, result)
+  }).catch((error) => {
+    if (error) { 
+      console.log('Access Token Error', error.message); 
+    }
+  });
 
   function saveToken(error, result) {
+    console.log('save token')
     if (error) { 
       console.log('Access Token Error', error.message); 
     }
