@@ -7,7 +7,7 @@ exports.handler = (event, context, callback) => {
   // authorization_uri
   var code = req.query.code; // change
 
-  oauth2.authCode.getToken({
+  oauth2.authorizationCode.getToken({
     code: code,
     redirect_uri: config.redirect_uri,
     client_id: config.clientID,
@@ -42,6 +42,8 @@ exports.handler = (event, context, callback) => {
         "Accept": "application/json",
       }
     };
+
+    console.log('make request', req_options)
 
     request(req_options, (err, req, body) => {
       console.log(token)
