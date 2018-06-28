@@ -5,7 +5,8 @@ import oauth2, { config } from './utils/oauth'
 exports.handler = (event, context, callback) => {
   console.log('event', event)
   // authorization_uri
-  var code = req.query.code; // change
+  var code = event.queryStringParameters.code;
+  var state = event.queryStringParameters.state
 
   oauth2.authorizationCode.getToken({
     code: code,
