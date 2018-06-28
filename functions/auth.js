@@ -10,7 +10,7 @@ var authorization_uri = oauth2.authorizationCode.authorizeURL({
 });
 
 exports.handler = (event, context, callback) => {
-  console.log('authorization_uri', authorization_uri)
+  console.log('change this', authorization_uri)
   // authorization_uri
    const response = {
     statusCode: 301,
