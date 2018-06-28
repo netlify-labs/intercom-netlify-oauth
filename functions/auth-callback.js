@@ -18,26 +18,28 @@ exports.handler = (event, context, callback) => {
     saveToken(null, result)
   }).catch((error) => {
     if (error) { 
-      console.log('Access Token Error', error.message); 
+      console.log('Access Token Error promise catch', error.message); 
     }
   });
 
   function saveToken(error, result) {
     console.log('save token')
+    console.log('error', error)
+    console.log('result', result)
     if (error) { 
       console.log('Access Token Error', error.message); 
     }
 
     console.log('token result', result)
-    token = oauth2.accessToken.create(result);
-
+    var token = oauth2.accessToken.create(result);
+    console.log('created token', token)
     var params = params || {};
 
     params['client_id'] = config.clientID;
     params['client_secret'] = config.clientSecret;
     params['app_id']= config.app_id;
 
-    var post_data= querystring.stringify(params);
+    var post_data = querystring.stringify(params);
 
     var req_options = {
       url: config.profilePath + "?" + post_data,
