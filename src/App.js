@@ -6,8 +6,9 @@ export default class App extends Component {
     return (
       <div className='app'>
         <div className='app-contents'>
-          <h1>Intercom login</h1>
-          <div>
+          <h1>Intercom + Netlify Functions</h1>
+          <p>Login with intercom oauth</p>
+          <div className='button-wrapper'>
             <a href="/.netlify/functions/auth">
               <img 
                 src="https://static.intercomassets.com/assets/oauth/primary-7edb2ebce84c088063f4b86049747c3a.png" 
@@ -15,6 +16,8 @@ export default class App extends Component {
                 />
             </a>
           </div>
+
+          <a href="https://github.com/DavidWells/intercom-netlify-oauth" className='github-link'>View the source on Github</a>
         </div>
       </div>
     )
