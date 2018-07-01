@@ -42,7 +42,7 @@ exports.handler = (event, context, callback) => {
 function saveToken(result) {
   console.log('save token', result)
   const token = oauth2.accessToken.create(result)
-  // console.log('created token', token)
+  console.log('=== created token', token)
 
   const params = {
     client_id: config.clientId,
