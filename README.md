@@ -31,3 +31,12 @@
   ```bash
   npm start
   ```
+
+
+## About
+
+This flow uses the [Authorization Code Grant](https://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.1) flow.
+
+![intercom oauth netlify](https://user-images.githubusercontent.com/532272/42139934-bacd88e6-7d4b-11e8-8ccd-9a6621ecc8a6.png)
+
+For more information on Oauth 2.0. [Watch this video](https://www.youtube.com/watch?v=CPbvxxslDTU)
