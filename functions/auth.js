@@ -7,15 +7,17 @@ exports.handler = (event, context, callback) => {
     scope: '',
     state: ''
   });
-  console.log('authorization_uri', authorization_uri)
-  
-  /* redirect user to intercom login */
+  // console.log('authorization_uri', authorization_uri)
+
+  /* redirect user to intercom authorization_uri login */
   const response = {
     statusCode: 301,
     headers: {
       Location: authorization_uri,
+      // Set no cache
+      'Cache-Control': 'no-cache'
     }
-  };
+  }
 
-  callback(null, response);
+  return callback(null, response)
 }
