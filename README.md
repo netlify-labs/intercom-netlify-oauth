@@ -60,10 +60,10 @@ The `auth.js` function creates a `authorization_uri` using the `simple-oauth2` n
 
 Setting the `header.Location` in the lambda response will redirect the user to the `authorization_uri`.
 
-<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./functions/auth.js&includePath=true) -->
+<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./functions/auth.js&header=/* code from /functions/auth.js */) -->
 <!-- The below code snippet is automatically added from ./functions/auth.js -->
 ```js
-/* ./functions/auth.js */
+/* code from /functions/auth.js */
 import oauth2, { config } from './utils/oauth'
 
 exports.handler = (event, context, callback) => {
@@ -98,9 +98,10 @@ It then calls `oauth2.authorizationCode.getToken` to get a valid AccessToken fro
 
 Once you have the valid accessToken, you can store it and make authenticated calls on behalf of the user to the intercom API.
 
-<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./functions/auth-callback.js) -->
+<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./functions/auth-callback.js&header=/* code from /functions/auth-callback.js */) -->
 <!-- The below code snippet is automatically added from ./functions/auth-callback.js -->
 ```js
+/* code from /functions/auth-callback.js */
 import request from 'request'
 import querystring from 'querystring'
 import oauth2, { config } from './utils/oauth'
