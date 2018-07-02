@@ -50,7 +50,7 @@ Add 'login with intercom' via Netlify Functions
 
 The example uses 2 Netlify functions to authenicate against Intercom.
 
-![intercom oauth netlify](https://user-images.githubusercontent.com/532272/42140261-fb3e1d22-7d51-11e8-87ec-dd718187a659.png)
+![intercom oauth netlify](https://user-images.githubusercontent.com/532272/42144429-d2717f24-7d6f-11e8-8619-c1bec1562991.png)
 
 This flow uses the [Authorization Code Grant](https://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.1) flow.
 For more information on Oauth 2.0. [Watch this video](https://www.youtube.com/watch?v=CPbvxxslDTU)
