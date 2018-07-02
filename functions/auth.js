@@ -4,8 +4,8 @@ exports.handler = (event, context, callback) => {
   // Authorization uri definition
   const authorization_uri = oauth2.authorizationCode.authorizeURL({
     redirect_uri: config.redirect_uri,
-    scope: '',
-    state: ''
+    scope: '', /* Specify how your app needs to access the user’s account. http://bit.ly/intercom-scopes */
+    state: '' /* Pass custom client state */
   });
   // console.log('authorization_uri', authorization_uri)
 

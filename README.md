@@ -60,17 +60,18 @@ The `auth.js` function creates a `authorization_uri` using the `simple-oauth2` n
 
 Setting the `header.Location` in the lambda response will redirect the user to the `authorization_uri`.
 
-<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./functions/auth.js) -->
+<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./functions/auth.js&includePath=true) -->
 <!-- The below code snippet is automatically added from ./functions/auth.js -->
 ```js
+/* ./functions/auth.js */
 import oauth2, { config } from './utils/oauth'
 
 exports.handler = (event, context, callback) => {
   // Authorization uri definition
   const authorization_uri = oauth2.authorizationCode.authorizeURL({
     redirect_uri: config.redirect_uri,
-    scope: '',
-    state: ''
+    scope: '', /* Specify how your app needs to access the user’s account. http://bit.ly/intercom-scopes */
+    state: '' /* Pass custom client state */
   });
   // console.log('authorization_uri', authorization_uri)
 
