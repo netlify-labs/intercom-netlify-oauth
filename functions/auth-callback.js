@@ -6,6 +6,7 @@ import oauth2, { config } from './utils/oauth'
 exports.handler = (event, context, callback) => {
   // console.log('event', event)
   const code = event.queryStringParameters.code
+  /* state helps mitigate CSRF attacks & Restore the previous state of your app */
   const state = event.queryStringParameters.state
 
   oauth2.authorizationCode.getToken({
@@ -14,30 +15,31 @@ exports.handler = (event, context, callback) => {
     client_id: config.clientId,
     client_secret: config.clientSecret
   })
-  .then(saveToken)
-  .then((result) => {
+    .then(saveToken)
+    .then((result) => {
     // Do stuff with token
-    console.log('auth token', result.token)
-    // Do stuff with user data
-    console.log('user data', result.data)
-    // Do other custom stuff
-    return callback(null, {
-      statusCode: 200,
-      body: JSON.stringify(result)
-    })
-  })
-  .catch((error) => {
-    console.log('Access Token Error', error.message)
-    console.log(error)
-    return callback(null, {
-      statusCode: error.statusCode || 500,
-      body: JSON.stringify({
-        error: error.message,
+      console.log('auth token', result.token)
+      // Do stuff with user data
+      console.log('user data', result.data)
+      // Do other custom stuff
+      console.log('state', state)
+      // return results to browser
+      return callback(null, {
+        statusCode: 200,
+        body: JSON.stringify(result)
       })
     })
-  })
+    .catch((error) => {
+      console.log('Access Token Error', error.message)
+      console.log(error)
+      return callback(null, {
+        statusCode: error.statusCode || 500,
+        body: JSON.stringify({
+          error: error.message,
+        })
+      })
+    })
 }
-
 
 function saveToken(result) {
   console.log('save token', result)
@@ -68,18 +70,18 @@ function saveToken(result) {
   return requestWrapper(requestOptions, token)
 }
 
-/* promify request call */
+/* promisify request call */
 function requestWrapper(requestOptions, token) {
   return new Promise((resolve, reject) => {
     request(requestOptions, (err, response, body) => {
       if (err) {
         return reject(err)
       }
-      const data = {
+      // return data
+      return resolve({
         token: token,
         data: body,
-      }
-      return resolve(data)
+      })
     })
   })
 }

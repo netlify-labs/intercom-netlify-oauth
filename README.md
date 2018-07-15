@@ -21,7 +21,7 @@ Add 'login with intercom' via Netlify Functions
     npm install
     ```
 
-3. Set your Intercom app id and Oauth values in your terminal enviroment
+3. Set your Intercom app id and Oauth values in your terminal environment
 
     You can create an intercom Oauth app here: https://app.intercom.com/developers/
 
@@ -48,7 +48,7 @@ Add 'login with intercom' via Netlify Functions
 
 ## Architecture
 
-The example uses 2 Netlify functions to authenicate against Intercom.
+The example uses 2 Netlify functions to authenticate against Intercom.
 
 ![intercom oauth netlify](https://user-images.githubusercontent.com/532272/42144429-d2717f24-7d6f-11e8-8619-c1bec1562991.png)
 
@@ -71,18 +71,19 @@ import oauth2, { config } from './utils/oauth'
 
 exports.handler = (event, context, callback) => {
   // Authorization uri definition
-  const authorization_uri = oauth2.authorizationCode.authorizeURL({
+  const authorizationURI = oauth2.authorizationCode.authorizeURL({
     redirect_uri: config.redirect_uri,
-    scope: '', /* Specify how your app needs to access the user’s account. http://bit.ly/intercom-scopes */
-    state: '' /* Pass custom client state */
-  });
-  // console.log('authorization_uri', authorization_uri)
+    /* Specify how your app needs to access the user’s account. http://bit.ly/intercom-scopes */
+    scope: '',
+    /* State helps mitigate CSRF attacks & Restore the previous state of your app */
+    state: '',
+  })
 
-  /* redirect user to intercom authorization_uri login */
+  /* redirect user to intercom authorizationURI login */
   const response = {
     statusCode: 301,
     headers: {
-      Location: authorization_uri,
+      Location: authorizationURI,
       // Set no cache
       'Cache-Control': 'no-cache'
     }
@@ -113,6 +114,7 @@ import oauth2, { config } from './utils/oauth'
 exports.handler = (event, context, callback) => {
   // console.log('event', event)
   const code = event.queryStringParameters.code
+  /* state helps mitigate CSRF attacks & Restore the previous state of your app */
   const state = event.queryStringParameters.state
 
   oauth2.authorizationCode.getToken({
@@ -121,30 +123,31 @@ exports.handler = (event, context, callback) => {
     client_id: config.clientId,
     client_secret: config.clientSecret
   })
-  .then(saveToken)
-  .then((result) => {
+    .then(saveToken)
+    .then((result) => {
     // Do stuff with token
-    console.log('auth token', result.token)
-    // Do stuff with user data
-    console.log('user data', result.data)
-    // Do other custom stuff
-    return callback(null, {
-      statusCode: 200,
-      body: JSON.stringify(result)
-    })
-  })
-  .catch((error) => {
-    console.log('Access Token Error', error.message)
-    console.log(error)
-    return callback(null, {
-      statusCode: error.statusCode || 500,
-      body: JSON.stringify({
-        error: error.message,
+      console.log('auth token', result.token)
+      // Do stuff with user data
+      console.log('user data', result.data)
+      // Do other custom stuff
+      console.log('state', state)
+      // return results to browser
+      return callback(null, {
+        statusCode: 200,
+        body: JSON.stringify(result)
       })
     })
-  })
+    .catch((error) => {
+      console.log('Access Token Error', error.message)
+      console.log(error)
+      return callback(null, {
+        statusCode: error.statusCode || 500,
+        body: JSON.stringify({
+          error: error.message,
+        })
+      })
+    })
 }
-
 
 function saveToken(result) {
   console.log('save token', result)
@@ -175,18 +178,18 @@ function saveToken(result) {
   return requestWrapper(requestOptions, token)
 }
 
-/* promify request call */
+/* promisify request call */
 function requestWrapper(requestOptions, token) {
   return new Promise((resolve, reject) => {
     request(requestOptions, (err, response, body) => {
       if (err) {
         return reject(err)
       }
-      const data = {
+      // return data
+      return resolve({
         token: token,
         data: body,
-      }
-      return resolve(data)
+      })
     })
   })
 }

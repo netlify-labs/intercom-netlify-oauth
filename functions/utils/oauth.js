@@ -1,5 +1,7 @@
 import simpleOauth from 'simple-oauth2'
 
+const siteURL = process.env.URL
+
 export const config = {
   appId: process.env.INTERCOM_APP_ID,
   clientSecret: process.env.INTERCOM_CLIENT_SECRET,
@@ -8,7 +10,7 @@ export const config = {
   authorizePath: 'https://app.intercom.io/oauth',
   tokenPath: 'https://api.intercom.io/auth/eagle/token',
   profilePath: 'https://api.intercom.io/me/',
-  redirect_uri: 'https://intercom-login-example.netlify.com/.netlify/functions/auth-callback',
+  redirect_uri: `${siteURL}/.netlify/functions/auth-callback`,
 }
 
 const credentials = {
