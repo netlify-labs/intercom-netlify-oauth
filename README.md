@@ -11,9 +11,20 @@ Add 'login with intercom' via Netlify Functions
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 
+## About
+
+This project sets up a "login with intercom" Oauth flow using netlify functions.
+
+![intercom oauth demo](https://user-images.githubusercontent.com/532272/42738995-7a8de2a0-8843-11e8-8179-d1865ded82ab.gif)
+
+
 ## Install
 
 1. Clone down the repository
+
+    ```bash
+    git clone git@github.com:DavidWells/intercom-netlify-oauth.git
+    ```
 
 2. Install the dependencies
 
@@ -59,9 +70,9 @@ For more information on Oauth 2.0. [Watch this video](https://www.youtube.com/wa
 
 ### auth.js
 
-The `auth.js` function creates a `authorization_uri` using the `simple-oauth2` npm module and redirects the user to the intercom login screen.
+The `auth.js` function creates an `authorizationURI` using the [`simple-oauth2` npm module](https://www.npmjs.com/package/simple-oauth2) and redirects the user to the intercom login screen.
 
-Setting the `header.Location` in the lambda response will redirect the user to the `authorization_uri`.
+Inside of the `auth.js` function, we set the `header.Location` in the lambda response and that will redirect the user to the `authorizationURI`, a.k.a the intercom oauth login screen.
 
 <!-- AUTO-GENERATED-CONTENT:START (CODE:src=./functions/auth.js&header=/* code from /functions/auth.js */) -->
 <!-- The below code snippet is automatically added from ./functions/auth.js -->

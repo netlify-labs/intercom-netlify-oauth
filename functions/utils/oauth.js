@@ -1,19 +1,35 @@
 import simpleOauth from 'simple-oauth2'
 
-const siteURL = process.env.URL
+const intercomApi = 'https://app.intercom.io'
 
 export const config = {
+  /* values set in terminal session or in netlify environment variables */
   appId: process.env.INTERCOM_APP_ID,
-  clientSecret: process.env.INTERCOM_CLIENT_SECRET,
   clientId: process.env.INTERCOM_CLIENT_ID,
-  tokenHost: 'https://app.intercom.io',
-  authorizePath: 'https://app.intercom.io/oauth',
-  tokenPath: 'https://api.intercom.io/auth/eagle/token',
-  profilePath: 'https://api.intercom.io/me/',
-  redirect_uri: `${siteURL}/.netlify/functions/auth-callback`,
+  clientSecret: process.env.INTERCOM_CLIENT_SECRET,
+  /* Intercom oauth API endpoints */
+  tokenHost: intercomApi,
+  authorizePath: `${intercomApi}/oauth`,
+  tokenPath: `${intercomApi}/auth/eagle/token`,
+  profilePath: `${intercomApi}/me/`,
+  /* redirect_uri is the callback url after successful signin */
+  redirect_uri: `${process.env.URL}/.netlify/functions/auth-callback`,
+  /* ^ process.env.URL from netlify BUILD environment variables */
 }
 
-const credentials = {
+function authInstance(credentials) {
+  if (!credentials.client.id) {
+    throw new Error('MISSING REQUIRED ENV VARS. Please set INTERCOM_CLIENT_ID')
+  }
+  if (!credentials.client.secret) {
+    throw new Error('MISSING REQUIRED ENV VARS. Please set INTERCOM_CLIENT_SECRET')
+  }
+  // return oauth instance
+  return simpleOauth.create(credentials)
+}
+
+/* Create oauth2 instance to use in our two functions */
+export default authInstance({
   client: {
     id: config.clientId,
     secret: config.clientSecret
@@ -23,8 +39,4 @@ const credentials = {
     tokenPath: config.tokenPath,
     authorizePath: config.authorizePath
   }
-}
-
-const oauth2 = simpleOauth.create(credentials)
-
-export default oauth2
+})

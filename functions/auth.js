@@ -15,7 +15,7 @@ exports.handler = (event, context, callback) => {
     statusCode: 301,
     headers: {
       Location: authorizationURI,
-      // Set no cache
+      /* Disable caching of this response. */
       'Cache-Control': 'no-cache'
     }
   }
