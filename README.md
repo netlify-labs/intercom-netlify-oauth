@@ -154,8 +154,9 @@ Inside of the `auth.js` function, we set the `header.Location` in the lambda res
 /* code from /functions/auth.js */
 import oauth2, { config } from './utils/oauth'
 
+/* Do initial auth redirect */
 exports.handler = (event, context, callback) => {
-  // Authorization uri definition
+  /* Generate authorizationURI */
   const authorizationURI = oauth2.authorizationCode.authorizeURL({
     redirect_uri: config.redirect_uri,
     /* Specify how your app needs to access the user’s account. http://bit.ly/intercom-scopes */
@@ -164,13 +165,12 @@ exports.handler = (event, context, callback) => {
     state: '',
   })
 
-  /* redirect user to intercom authorizationURI login */
+  /* Redirect user to authorizationURI */
   const response = {
     statusCode: 302,
     headers: {
       Location: authorizationURI,
-      /* Disable caching of this response. */
-      'Cache-Control': 'no-cache'
+      'Cache-Control': 'no-cache' // Disable caching of this response
     },
     body: '' // return body for local dev
   }
@@ -198,7 +198,6 @@ import oauth2, { config } from './utils/oauth'
 
 /* Function to handle intercom auth callback */
 exports.handler = (event, context, callback) => {
-  // console.log('event', event)
   const code = event.queryStringParameters.code
   /* state helps mitigate CSRF attacks & Restore the previous state of your app */
   const state = event.queryStringParameters.state

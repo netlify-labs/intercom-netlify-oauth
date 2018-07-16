@@ -4,7 +4,6 @@ import oauth2, { config } from './utils/oauth'
 
 /* Function to handle intercom auth callback */
 exports.handler = (event, context, callback) => {
-  // console.log('event', event)
   const code = event.queryStringParameters.code
   /* state helps mitigate CSRF attacks & Restore the previous state of your app */
   const state = event.queryStringParameters.state
