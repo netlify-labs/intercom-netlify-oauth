@@ -20,7 +20,9 @@ Here is a quick demo of the login flow, and the OAuth Access data you get back:
 
 ![intercom oauth demo](https://user-images.githubusercontent.com/532272/42738995-7a8de2a0-8843-11e8-8179-d1865ded82ab.gif)
 
-You can leverage this project to wire up intercom login with your application.
+You can leverage this project to wire up intercom (or other OAuth providers) login with your application.
+
+TLDR; [Watch the 11 minute video](https://www.youtube.com/watch?v=HuIS6jvK8S8) **everything**
 
 ## How to Install and Setup
 
@@ -113,7 +115,7 @@ Making edits to the functions in the `/functions` will hot reload and you can bu
 
 Use the one click deploy button to launch this!
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/davidwells/intercom-oauth)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/davidwells/intercom-netlify-oauth)
 
 OR connect this repo with your Netlify account and add in your values.
 
