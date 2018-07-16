@@ -8,8 +8,8 @@ Add 'login with intercom' via Netlify Functions & Oauth!
 - [Running Locally](#running-locally)
 - [Deploying](#deploying)
 - [How it works](#how-it-works)
-  * [auth.js](#authjs)
-  * [auth-callback.js](#auth-callbackjs)
+  * [auth.js function](#authjs-function)
+  * [auth-callback.js function](#auth-callbackjs-function)
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 ## About
@@ -136,13 +136,11 @@ Here is a diagram of what is happening:
 3. `auth-callback.js` takes the **auth grant code** and calls back into intercom's API to exchange it for an **AccessToken**
 4. `auth-callback.js` now has the **AccessToken** to make any API calls it would like back into the intercom App.
 
-This flow uses the [Authorization Code Grant](https://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.1) flow.
-
-For more information on Oauth 2.0. [Watch this video](https://www.youtube.com/watch?v=CPbvxxslDTU)
+This flow uses the [Authorization Code Grant](https://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.1) flow. For more information on Oauth 2.0, [Watch this video](https://www.youtube.com/watch?v=CPbvxxslDTU)
 
 Let's dive into the individual functions:
 
-### auth.js
+### auth.js function
 
 The `auth.js` function creates an `authorizationURI` using the [`simple-oauth2` npm module](https://www.npmjs.com/package/simple-oauth2) and redirects the user to the intercom login screen.
 
@@ -180,7 +178,7 @@ exports.handler = (event, context, callback) => {
 ```
 <!-- AUTO-GENERATED-CONTENT:END -->
 
-### auth-callback.js
+### auth-callback.js function
 
 The `auth-callback.js` function handles the authorization grant code returned from the successful intercom login.
 
