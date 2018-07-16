@@ -4,8 +4,9 @@ Add 'login with intercom' via Netlify Functions & Oauth!
 
 <!-- AUTO-GENERATED-CONTENT:START (TOC) -->
 - [About](#about)
-- [The architecture](#the-architecture)
-- [How to Setup, Install & Run locally](#how-to-setup-install--run-locally)
+- [How to Install and Setup](#how-to-install-and-setup)
+- [Running Locally](#running-locally)
+- [Deploying](#deploying)
 - [Functions](#functions)
   * [auth.js](#authjs)
   * [auth-callback.js](#auth-callbackjs)
@@ -15,36 +16,27 @@ Add 'login with intercom' via Netlify Functions & Oauth!
 
 This project sets up a "login with intercom" Oauth flow using netlify functions.
 
-Here is a quick demo of the login flow, and the oauth Access data you get back:
+Here is a quick demo of the login flow, and the Oauth Access data you get back:
 
 ![intercom oauth demo](https://user-images.githubusercontent.com/532272/42738995-7a8de2a0-8843-11e8-8179-d1865ded82ab.gif)
 
 You can leverage this project to wire up intercom login with your application.
 
-## The architecture
+## How to Install and Setup
 
-![intercom oauth netlify](https://user-images.githubusercontent.com/532272/42144429-d2717f24-7d6f-11e8-8619-c1bec1562991.png)
-
-This flow uses the [Authorization Code Grant](https://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.1) flow.
-For more information on Oauth 2.0. [Watch this video](https://www.youtube.com/watch?v=CPbvxxslDTU)
-
-Keep reading for the [functions](#functions) used in this project.
-
-## How to Setup, Install & Run locally
-
-1. Clone down the repository
+1. **Clone down the repository**
 
     ```bash
     git clone git@github.com:DavidWells/intercom-netlify-oauth.git
     ```
 
-2. Install the dependencies
+2. **Install the dependencies**
 
     ```bash
     npm install
     ```
 
-3. Create an Intercom Oauth app
+3. **Create an Intercom Oauth app**
 
     Lets go ahead and setup the intercom app we will need!
 
@@ -56,9 +48,17 @@ Keep reading for the [functions](#functions) used in this project.
 
     ![intercom-test-app-setup](https://user-images.githubusercontent.com/532272/42739711-0ec30506-8851-11e8-8c0a-b4b1d5bd4174.jpg)
 
+    After enabling the test app, you can find it listed in your [intercom developer portal](https://app.intercom.com/developers/).
+
+    We now need to configure the test app.
+
     Input the live "WEBSITE URL" and "REDIRECT URLS" in the app edit screen.
 
-    You will want to have your live Netlify site URL and `localhost:3000` setup to handle the redirects for local development. If you haven't deployed to Netlify yet, just insert a placeholder URL like `http://my-temp-site.com` but remember to change this once your Netlify site is live.
+    ![itercom-oauth-app-settings](https://user-images.githubusercontent.com/532272/42740025-0ea5833c-8856-11e8-827a-369189b951a1.jpg)
+
+    You will want to have your live Netlify site URL and `localhost:3000` setup to handle the redirects for local development.
+
+    If you haven't deployed to Netlify yet, just insert a placeholder URL like `http://my-temp-site.com` but **remember to change this once your Netlify site is live with the correct URL**
 
     Our demo app has these `REDIRECT URLS` values that are comma separated
 
@@ -67,57 +67,80 @@ Keep reading for the [functions](#functions) used in this project.
     http://localhost:3000/.netlify/functions/auth-callback
     ```
 
-    ![itercom-oauth-app-settings](https://user-images.githubusercontent.com/532272/42740025-0ea5833c-8856-11e8-827a-369189b951a1.jpg)
-
     Great we are all configured over here.
 
-4. Grab your Intercom App ID, `CLIENT_ID` and `CLIENT_SECRET`
+4. **Grab your the required config values**
 
-    Navigate back to the main Oauth screen and grab the `INTERCOM_APP_ID`, `INTERCOM_CLIENT_ID`, and `INTERCOM_CLIENT_SECRET` values. We will need these to run the app locally and when deploying to Netlify.
+    We need our intercom app values to configure our function environment variables.
+
+    Navigate back to the main Oauth screen and grab the **App ID**, **Client ID**, and **Client Secret** values. We will need these to run the app locally and when deploying to Netlify.
 
     ![intercom-config-values](https://user-images.githubusercontent.com/532272/42739965-25d15c26-8855-11e8-925b-105c1fa381f5.jpg)
 
-5. (Running locally) Set your Intercom app id and Oauth values in your terminal environment
+## Running Locally
 
-    After creating your [Oauth app](https://app.intercom.com/developers/) and the steps above, plugin the required environment variables into your local terminal session like so:
+Set your Intercom app id and Oauth values in your terminal environment
 
-    On linux/MacOS:
+After creating your [Oauth app](https://app.intercom.com/developers/) and the steps above, plugin the required environment variables into your local terminal session like so:
 
-    ```bash
-    export INTERCOM_APP_ID=INTERCOM_APP_ID
-    export INTERCOM_CLIENT_ID=INTERCOM_CLIENT_ID
-    export INTERCOM_CLIENT_SECRET=INTERCOM_CLIENT_SECRET
-    ```
+On linux/MacOS:
 
-    or in windows:
+```bash
+export INTERCOM_APP_ID=INTERCOM_APP_ID
+export INTERCOM_CLIENT_ID=INTERCOM_CLIENT_ID
+export INTERCOM_CLIENT_SECRET=INTERCOM_CLIENT_SECRET
+```
 
-    ```bash
-    set INTERCOM_APP_ID=INTERCOM_APP_ID
-    set INTERCOM_CLIENT_ID=INTERCOM_CLIENT_ID
-    set INTERCOM_CLIENT_SECRET=INTERCOM_CLIENT_SECRET
-    ```
+or in windows:
 
-6. Run project locally
+```bash
+set INTERCOM_APP_ID=INTERCOM_APP_ID
+set INTERCOM_CLIENT_ID=INTERCOM_CLIENT_ID
+set INTERCOM_CLIENT_SECRET=INTERCOM_CLIENT_SECRET
+```
 
-    ```bash
-    npm start
-    ```
+Then run the start command
 
-    This will boot up our functions to run locally for development. You can now login via your intercom application and see the token data returned
+```bash
+npm start
+```
 
-7. Deploy (Running in Netlify)
+This will boot up our functions to run locally for development. You can now login via your intercom application and see the token data returned.
 
-    Use the one click deploy button to launch this!
+Making edits to the functions in the `/functions` will hot reload and you can build your app.
 
-    [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/davidwells/intercom-oauth)
+## Deploying
 
-    OR connect this repo with your Netlify account and add in your values.
+Use the one click deploy button to launch this!
 
-    In `https://app.netlify.com/sites/YOUR-SITE-SLUG/settings/deploys` add the  `INTERCOM_APP_ID`, `INTERCOM_CLIENT_ID`, and `INTERCOM_CLIENT_SECRET` values to the "Build environment variables" section of settings
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/davidwells/intercom-oauth)
 
-    ![intercom-deploy-settings](https://user-images.githubusercontent.com/532272/42740147-ece388c8-8857-11e8-93af-a1dd721e345a.jpg)
+OR connect this repo with your Netlify account and add in your values.
+
+In `https://app.netlify.com/sites/YOUR-SITE-SLUG/settings/deploys` add the  `INTERCOM_APP_ID`, `INTERCOM_CLIENT_ID`, and `INTERCOM_CLIENT_SECRET` values to the "Build environment variables" section of settings
+
+![intercom-deploy-settings](https://user-images.githubusercontent.com/532272/42740147-ece388c8-8857-11e8-93af-a1dd721e345a.jpg)
 
 ## Functions
+
+Once again, serverless functions come to the rescue!
+
+We will be using 2 functions to handle the entire Oauth flow with intercom.
+
+Here is a diagram of what is happening:
+
+![intercom oauth netlify](https://user-images.githubusercontent.com/532272/42144429-d2717f24-7d6f-11e8-8619-c1bec1562991.png)
+
+1. First the `auth.js` function is triggered & redirects the user to intercom
+2. The user logs in via intercom and is redirected back to `auth-callback.js` function with an **auth grant code**
+3. `auth-callback.js` takes the **auth grant code** and calls back into intercom's API to exchange it for an **AccessToken**
+4. `auth-callback.js` now has the **AccessToken** to make any API calls it would like back into the intercom App.
+
+This flow uses the [Authorization Code Grant](https://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.1) flow.
+
+For more information on Oauth 2.0. [Watch this video](https://www.youtube.com/watch?v=CPbvxxslDTU)
+
+Let's dive into the individual functions:
 
 ### auth.js
 
@@ -180,6 +203,7 @@ exports.handler = (event, context, callback) => {
   /* state helps mitigate CSRF attacks & Restore the previous state of your app */
   const state = event.queryStringParameters.state
 
+  /* Take the grant code and exchange for an accessToken */
   oauth2.authorizationCode.getToken({
     code: code,
     redirect_uri: config.redirect_uri,

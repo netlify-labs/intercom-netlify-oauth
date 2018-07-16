@@ -9,6 +9,7 @@ exports.handler = (event, context, callback) => {
   /* state helps mitigate CSRF attacks & Restore the previous state of your app */
   const state = event.queryStringParameters.state
 
+  /* Take the grant code and exchange for an accessToken */
   oauth2.authorizationCode.getToken({
     code: code,
     redirect_uri: config.redirect_uri,
