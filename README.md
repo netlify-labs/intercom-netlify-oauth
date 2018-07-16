@@ -7,7 +7,7 @@ Add 'login with intercom' via Netlify Functions & Oauth!
 - [How to Install and Setup](#how-to-install-and-setup)
 - [Running Locally](#running-locally)
 - [Deploying](#deploying)
-- [Functions](#functions)
+- [How it works](#how-it-works)
   * [auth.js](#authjs)
   * [auth-callback.js](#auth-callbackjs)
 <!-- AUTO-GENERATED-CONTENT:END -->
@@ -121,7 +121,7 @@ In `https://app.netlify.com/sites/YOUR-SITE-SLUG/settings/deploys` add the  `INT
 
 ![intercom-deploy-settings](https://user-images.githubusercontent.com/532272/42740147-ece388c8-8857-11e8-93af-a1dd721e345a.jpg)
 
-## Functions
+## How it works
 
 Once again, serverless functions come to the rescue!
 
@@ -192,8 +192,7 @@ Once you have the valid accessToken, you can store it and make authenticated cal
 <!-- The below code snippet is automatically added from ./functions/auth-callback.js -->
 ```js
 /* code from /functions/auth-callback.js */
-import request from 'request'
-import querystring from 'querystring'
+import getUserData from './utils/getUserData'
 import oauth2, { config } from './utils/oauth'
 
 /* Function to handle intercom auth callback */
@@ -209,9 +208,15 @@ exports.handler = (event, context, callback) => {
     client_id: config.clientId,
     client_secret: config.clientSecret
   })
-    .then(saveToken)
     .then((result) => {
-    // Do stuff with token
+      const token = oauth2.accessToken.create(result)
+      console.log('accessToken', token)
+      return token
+    })
+    // Get more info about intercom user
+    .then(getUserData)
+    // Do stuff with user data & token
+    .then((result) => {
       console.log('auth token', result.token)
       // Do stuff with user data
       console.log('user data', result.data)
@@ -234,50 +239,7 @@ exports.handler = (event, context, callback) => {
       })
     })
 }
-
-function saveToken(result) {
-  console.log('save token', result)
-  const token = oauth2.accessToken.create(result)
-  console.log('=== created token', token)
-
-  const params = {
-    client_id: config.clientId,
-    client_secret: config.clientSecret,
-    app_id: config.appId
-  }
-
-  const postData = querystring.stringify(params)
-
-  const requestOptions = {
-    url: `${config.profilePath}?${postData}`,
-    json: true,
-    auth: {
-      user: token.token.token,
-      pass: '',
-    },
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Accept': 'application/json',
-    }
-  }
-
-  return requestWrapper(requestOptions, token)
-}
-
-/* promisify request call */
-function requestWrapper(requestOptions, token) {
-  return new Promise((resolve, reject) => {
-    request(requestOptions, (err, response, body) => {
-      if (err) {
-        return reject(err)
-      }
-      // return data
-      return resolve({
-        token: token,
-        data: body,
-      })
-    })
-  })
-}
 ```
 <!-- AUTO-GENERATED-CONTENT:END -->
+
+So as we can see, using two pretty simple lambda functions we can now handle logins via Intercom or any other third party Oauth provider.
