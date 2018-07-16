@@ -1,5 +1,5 @@
-import request from 'request'
 import querystring from 'querystring'
+import requestWrapper from './utils/request'
 import oauth2, { config } from './utils/oauth'
 
 /* Function to handle intercom auth callback */
@@ -15,7 +15,12 @@ exports.handler = (event, context, callback) => {
     client_id: config.clientId,
     client_secret: config.clientSecret
   })
-    .then(saveToken)
+    .then((result) => {
+      const token = oauth2.accessToken.create(result)
+      console.log('accessToken', token)
+      return token
+    })
+    .then(getUserData)
     .then((result) => {
     // Do stuff with token
       console.log('auth token', result.token)
@@ -41,11 +46,7 @@ exports.handler = (event, context, callback) => {
     })
 }
 
-function saveToken(result) {
-  console.log('save token', result)
-  const token = oauth2.accessToken.create(result)
-  console.log('=== created token', token)
-
+function getUserData(token) {
   const params = {
     client_id: config.clientId,
     client_secret: config.clientSecret,
@@ -68,20 +69,4 @@ function saveToken(result) {
   }
 
   return requestWrapper(requestOptions, token)
-}
-
-/* promisify request call */
-function requestWrapper(requestOptions, token) {
-  return new Promise((resolve, reject) => {
-    request(requestOptions, (err, response, body) => {
-      if (err) {
-        return reject(err)
-      }
-      // return data
-      return resolve({
-        token: token,
-        data: body,
-      })
-    })
-  })
 }
