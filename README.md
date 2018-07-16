@@ -44,29 +44,42 @@ Keep reading for the [functions](#functions) used in this project.
     npm install
     ```
 
-3. Set your Intercom app id and Oauth values in your terminal environment
+3. Create an Intercom Oauth app
 
-    You will need an intercom app setup to continue.
+    Lets go ahead and setup the intercom app we will need!
 
-    You can create an intercom Oauth app here: https://app.intercom.com/developers/, it's a little hard to find but you can create a TEST app in your intercom account under `https://app.intercom.com/a/apps/your-app-id/settings/general`
+    [Create an intercom Oauth app here](https://app.intercom.com/developers/)
+
+    You need to enable a 'test' app in your account. It's a tricky to find but you can create a TEST app in your intercom account under `Settings > General`
+
+    `https://app.intercom.com/a/apps/your-app-id/settings/general`
 
     ![intercom-test-app-setup](https://user-images.githubusercontent.com/532272/42739711-0ec30506-8851-11e8-8c0a-b4b1d5bd4174.jpg)
 
-    Setup your intercom app and input the correct "WEBSITE URL" and "REDIRECT URLS" in the app edit screen.
+    Input the live "WEBSITE URL" and "REDIRECT URLS" in the app edit screen.
 
-    You will want to have your live netlify site URL and `localhost:3000` setup to handle the redirects for local development.
+    You will want to have your live Netlify site URL and `localhost:3000` setup to handle the redirects for local development. If you haven't deployed to Netlify yet, just insert a placeholder URL like `http://my-temp-site.com` but remember to change this once your Netlify site is live.
 
-    Our demo app has these `REDIRECT URLS` values:
+    Our demo app has these `REDIRECT URLS` values that are comma separated
 
     ```bash
-    https://intercom-login-example.netlify.com/.netlify/functions/auth-callback, http://localhost:3000/.netlify/functions/auth-callback
+    https://intercom-login-example.netlify.com/.netlify/functions/auth-callback,
+    http://localhost:3000/.netlify/functions/auth-callback
     ```
 
-    ![itercom-oauth-app-settings](https://user-images.githubusercontent.com/532272/42739801-ea79ca84-8852-11e8-9f3a-6049c6e7dda9.jpg)
+    ![itercom-oauth-app-settings](https://user-images.githubusercontent.com/532272/42740025-0ea5833c-8856-11e8-827a-369189b951a1.jpg)
+
+    Great we are all configured over here.
+
+4. Grab your Intercom App ID, `CLIENT_ID` and `CLIENT_SECRET`
+
+    Navigate back to the main Oauth screen and grab the `INTERCOM_APP_ID`, `INTERCOM_CLIENT_ID`, and `INTERCOM_CLIENT_SECRET` values. We will need these to run the app locally and when deploying to Netlify.
 
     ![intercom-config-values](https://user-images.githubusercontent.com/532272/42739965-25d15c26-8855-11e8-925b-105c1fa381f5.jpg)
 
-    After creating your [Oauth app](https://app.intercom.com/developers/), plugin the required environment variables into your local terminal session like so:
+5. (Running locally) Set your Intercom app id and Oauth values in your terminal environment
+
+    After creating your [Oauth app](https://app.intercom.com/developers/) and the steps above, plugin the required environment variables into your local terminal session like so:
 
     On linux/MacOS:
 
@@ -84,7 +97,7 @@ Keep reading for the [functions](#functions) used in this project.
     set INTERCOM_CLIENT_SECRET=INTERCOM_CLIENT_SECRET
     ```
 
-4. Run project locally
+6. Run project locally
 
     ```bash
     npm start
@@ -92,12 +105,17 @@ Keep reading for the [functions](#functions) used in this project.
 
     This will boot up our functions to run locally for development. You can now login via your intercom application and see the token data returned
 
-5. Deploy
+7. Deploy (Running in Netlify)
 
-    Connect this repo with your Netlify account or use the one click deploy button:
+    Use the one click deploy button to launch this!
 
     [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/davidwells/intercom-oauth)
 
+    OR connect this repo with your Netlify account and add in your values.
+
+    In `https://app.netlify.com/sites/YOUR-SITE-SLUG/settings/deploys` add the  `INTERCOM_APP_ID`, `INTERCOM_CLIENT_ID`, and `INTERCOM_CLIENT_SECRET` values to the "Build environment variables" section of settings
+
+    ![intercom-deploy-settings](https://user-images.githubusercontent.com/532272/42740147-ece388c8-8857-11e8-93af-a1dd721e345a.jpg)
 
 ## Functions
 
