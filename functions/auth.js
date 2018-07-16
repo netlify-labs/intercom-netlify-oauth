@@ -12,12 +12,13 @@ exports.handler = (event, context, callback) => {
 
   /* redirect user to intercom authorizationURI login */
   const response = {
-    statusCode: 301,
+    statusCode: 302,
     headers: {
       Location: authorizationURI,
       /* Disable caching of this response. */
       'Cache-Control': 'no-cache'
-    }
+    },
+    body: '' // return body for local dev
   }
 
   return callback(null, response)

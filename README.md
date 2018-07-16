@@ -1,24 +1,36 @@
 # Netlify + Intercom Oauth &nbsp;&nbsp;&nbsp;<a href="https://app.netlify.com/start/deploy?repository=https://github.com/davidwells/intercom-netlify-oauth"><img src="https://www.netlify.com/img/deploy/button.svg"></a>
 
-Add 'login with intercom' via Netlify Functions
+Add 'login with intercom' via Netlify Functions & Oauth!
 
 <!-- AUTO-GENERATED-CONTENT:START (TOC) -->
-- [Install](#install)
-- [Architecture](#architecture)
+- [About](#about)
+- [The architecture](#the-architecture)
+- [How to Install & Run locally](#how-to-install--run-locally)
 - [Functions](#functions)
   * [auth.js](#authjs)
   * [auth-callback.js](#auth-callbackjs)
 <!-- AUTO-GENERATED-CONTENT:END -->
 
-
 ## About
 
 This project sets up a "login with intercom" Oauth flow using netlify functions.
 
+Here is a quick demo of the login flow, and the oauth Access data you get back:
+
 ![intercom oauth demo](https://user-images.githubusercontent.com/532272/42738995-7a8de2a0-8843-11e8-8179-d1865ded82ab.gif)
 
+You can leverage this project to wire up intercom login with your application.
 
-## Install
+## The architecture
+
+![intercom oauth netlify](https://user-images.githubusercontent.com/532272/42144429-d2717f24-7d6f-11e8-8619-c1bec1562991.png)
+
+This flow uses the [Authorization Code Grant](https://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.1) flow.
+For more information on Oauth 2.0. [Watch this video](https://www.youtube.com/watch?v=CPbvxxslDTU)
+
+Keep reading for the [functions](#functions) used in this project.
+
+## How to Install & Run locally
 
 1. Clone down the repository
 
@@ -34,14 +46,26 @@ This project sets up a "login with intercom" Oauth flow using netlify functions.
 
 3. Set your Intercom app id and Oauth values in your terminal environment
 
-    You can create an intercom Oauth app here: https://app.intercom.com/developers/
+    You will need an intercom app setup to continue.
 
-    In your terminal run the following command:
+    You can create an intercom Oauth app here: https://app.intercom.com/developers/, it's a little hard to find but you can create a TEST app in your intercom account under `https://app.intercom.com/a/apps/your-app-id/settings/general`
+
+    ![intercom-test-app-setup](https://user-images.githubusercontent.com/532272/42739711-0ec30506-8851-11e8-8c0a-b4b1d5bd4174.jpg)
+
+    After creating your Oauth app. You can plugin the required environment variables into your local terminal session like so:
 
     ```bash
     export INTERCOM_APP_ID=INTERCOM_APP_ID
     export INTERCOM_CLIENT_ID=INTERCOM_CLIENT_ID
     export INTERCOM_CLIENT_SECRET=INTERCOM_CLIENT_SECRET
+    ```
+
+    or in windows:
+
+    ```bash
+    set INTERCOM_APP_ID=INTERCOM_APP_ID
+    set INTERCOM_CLIENT_ID=INTERCOM_CLIENT_ID
+    set INTERCOM_CLIENT_SECRET=INTERCOM_CLIENT_SECRET
     ```
 
 4. Run project locally
@@ -50,21 +74,14 @@ This project sets up a "login with intercom" Oauth flow using netlify functions.
     npm start
     ```
 
+    This will boot up our functions to run locally for development.
+
 5. Deploy
 
-    Fork this repo and connect with your Netlify account or use the one click deploy button:
+    Connect this repo with your Netlify account or use the one click deploy button:
 
     [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/davidwells/intercom-oauth)
 
-
-## Architecture
-
-The example uses 2 Netlify functions to authenticate against Intercom.
-
-![intercom oauth netlify](https://user-images.githubusercontent.com/532272/42144429-d2717f24-7d6f-11e8-8619-c1bec1562991.png)
-
-This flow uses the [Authorization Code Grant](https://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.1) flow.
-For more information on Oauth 2.0. [Watch this video](https://www.youtube.com/watch?v=CPbvxxslDTU)
 
 ## Functions
 
@@ -92,12 +109,13 @@ exports.handler = (event, context, callback) => {
 
   /* redirect user to intercom authorizationURI login */
   const response = {
-    statusCode: 301,
+    statusCode: 302,
     headers: {
       Location: authorizationURI,
-      // Set no cache
+      /* Disable caching of this response. */
       'Cache-Control': 'no-cache'
-    }
+    },
+    body: '' // return body for local dev
   }
 
   return callback(null, response)

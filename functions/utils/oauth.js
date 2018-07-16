@@ -1,6 +1,8 @@
 import simpleOauth from 'simple-oauth2'
 
 const intercomApi = 'https://app.intercom.io'
+/* process.env.URL from netlify BUILD environment variables */
+const siteUrl = process.env.URL || 'http://localhost:3000'
 
 export const config = {
   /* values set in terminal session or in netlify environment variables */
@@ -13,8 +15,7 @@ export const config = {
   tokenPath: `${intercomApi}/auth/eagle/token`,
   profilePath: `${intercomApi}/me/`,
   /* redirect_uri is the callback url after successful signin */
-  redirect_uri: `${process.env.URL}/.netlify/functions/auth-callback`,
-  /* ^ process.env.URL from netlify BUILD environment variables */
+  redirect_uri: `${siteUrl}/.netlify/functions/auth-callback`,
 }
 
 function authInstance(credentials) {
