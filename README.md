@@ -5,7 +5,7 @@ Add 'login with intercom' via Netlify Functions & Oauth!
 <!-- AUTO-GENERATED-CONTENT:START (TOC) -->
 - [About](#about)
 - [The architecture](#the-architecture)
-- [How to Install & Run locally](#how-to-install--run-locally)
+- [How to Setup, Install & Run locally](#how-to-setup-install--run-locally)
 - [Functions](#functions)
   * [auth.js](#authjs)
   * [auth-callback.js](#auth-callbackjs)
@@ -30,7 +30,7 @@ For more information on Oauth 2.0. [Watch this video](https://www.youtube.com/wa
 
 Keep reading for the [functions](#functions) used in this project.
 
-## How to Install & Run locally
+## How to Setup, Install & Run locally
 
 1. Clone down the repository
 
@@ -52,7 +52,23 @@ Keep reading for the [functions](#functions) used in this project.
 
     ![intercom-test-app-setup](https://user-images.githubusercontent.com/532272/42739711-0ec30506-8851-11e8-8c0a-b4b1d5bd4174.jpg)
 
-    After creating your Oauth app. You can plugin the required environment variables into your local terminal session like so:
+    Setup your intercom app and input the correct "WEBSITE URL" and "REDIRECT URLS" in the app edit screen.
+
+    You will want to have your live netlify site URL and `localhost:3000` setup to handle the redirects for local development.
+
+    Our demo app has these `REDIRECT URLS` values:
+
+    ```bash
+    https://intercom-login-example.netlify.com/.netlify/functions/auth-callback, http://localhost:3000/.netlify/functions/auth-callback
+    ```
+
+    ![itercom-oauth-app-settings](https://user-images.githubusercontent.com/532272/42739801-ea79ca84-8852-11e8-9f3a-6049c6e7dda9.jpg)
+
+    ![intercom-config-values](https://user-images.githubusercontent.com/532272/42739965-25d15c26-8855-11e8-925b-105c1fa381f5.jpg)
+
+    After creating your [Oauth app](https://app.intercom.com/developers/), plugin the required environment variables into your local terminal session like so:
+
+    On linux/MacOS:
 
     ```bash
     export INTERCOM_APP_ID=INTERCOM_APP_ID
@@ -74,7 +90,7 @@ Keep reading for the [functions](#functions) used in this project.
     npm start
     ```
 
-    This will boot up our functions to run locally for development.
+    This will boot up our functions to run locally for development. You can now login via your intercom application and see the token data returned
 
 5. Deploy
 
