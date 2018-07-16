@@ -1,5 +1,4 @@
-import querystring from 'querystring'
-import requestWrapper from './utils/request'
+import getUserData from './utils/getUserData'
 import oauth2, { config } from './utils/oauth'
 
 /* Function to handle intercom auth callback */
@@ -20,9 +19,10 @@ exports.handler = (event, context, callback) => {
       console.log('accessToken', token)
       return token
     })
+    // Get more info about intercom user
     .then(getUserData)
+    // Do stuff with user data & token
     .then((result) => {
-    // Do stuff with token
       console.log('auth token', result.token)
       // Do stuff with user data
       console.log('user data', result.data)
@@ -44,29 +44,4 @@ exports.handler = (event, context, callback) => {
         })
       })
     })
-}
-
-function getUserData(token) {
-  const params = {
-    client_id: config.clientId,
-    client_secret: config.clientSecret,
-    app_id: config.appId
-  }
-
-  const postData = querystring.stringify(params)
-
-  const requestOptions = {
-    url: `${config.profilePath}?${postData}`,
-    json: true,
-    auth: {
-      user: token.token.token,
-      pass: '',
-    },
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Accept': 'application/json',
-    }
-  }
-
-  return requestWrapper(requestOptions, token)
 }
