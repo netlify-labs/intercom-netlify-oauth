@@ -26,8 +26,9 @@ You can leverage this project to wire up Intercom (or other OAuth providers) log
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/zErvY08uNM0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
+---
 
-<p>Let's get started with how to get setup with the repo and with Intercom.</p>
+Let's get started with how to get setup with the repo and with Intercom.
 
 ## How to install and setup
 
