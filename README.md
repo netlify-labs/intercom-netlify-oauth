@@ -22,12 +22,11 @@ Here is a quick demo of the login flow, and the OAuth Access data you get back:
 
 You can leverage this project to wire up Intercom (or other OAuth providers) login with your application.
 
-TLDR; [Watch the 11 minute video](https://www.youtube.com/watch?v=HuIS6jvK8S8) **everything**
+> TLDR; [Watch the 11 minute video](https://www.youtube.com/watch?v=HuIS6jvK8S8) explaining **everything**
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/zErvY08uNM0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-
-Let's get started with how to get setup and rolling.
+<p>Let's get started with how to get setup and rolling.</p>
 
 ## How to install and setup
 
