@@ -1,32 +1,34 @@
 # Netlify + Intercom OAuth &nbsp;&nbsp;&nbsp;<a href="https://app.netlify.com/start/deploy?repository=https://github.com/davidwells/intercom-netlify-oauth"><img src="https://www.netlify.com/img/deploy/button.svg"></a>
 
-Add 'login with intercom' via Netlify Functions & OAuth!
+Add 'login with Intercom' via Netlify Functions & OAuth!
 
 <!-- AUTO-GENERATED-CONTENT:START (TOC) -->
-- [About](#about)
-- [How to Install and Setup](#how-to-install-and-setup)
-- [Running Locally](#running-locally)
+- [About the project](#about-the-project)
+- [How to install and setup](#how-to-install-and-setup)
+- [Running the project locally](#running-the-project-locally)
 - [Deploying](#deploying)
-- [How it works](#how-it-works)
+- [How it works with Netlify Functions](#how-it-works-with-netlify-functions)
   * [auth.js function](#authjs-function)
   * [auth-callback.js function](#auth-callbackjs-function)
 <!-- AUTO-GENERATED-CONTENT:END -->
 
-## About
+## About the project
 
-This project sets up a "login with intercom" OAuth flow using netlify functions.
+This project sets up a "login with Intercom" OAuth flow using netlify functions.
 
 Here is a quick demo of the login flow, and the OAuth Access data you get back:
 
-![intercom oauth demo](https://user-images.githubusercontent.com/532272/42738995-7a8de2a0-8843-11e8-8179-d1865ded82ab.gif)
+![Intercom oauth demo](https://user-images.githubusercontent.com/532272/42738995-7a8de2a0-8843-11e8-8179-d1865ded82ab.gif)
 
-You can leverage this project to wire up intercom (or other OAuth providers) login with your application.
+You can leverage this project to wire up Intercom (or other OAuth providers) login with your application.
 
 TLDR; [Watch the 11 minute video](https://www.youtube.com/watch?v=HuIS6jvK8S8) **everything**
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/zErvY08uNM0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-## How to Install and Setup
+Let's get started with how to get setup and rolling.
+
+## How to install and setup
 
 1. **Clone down the repository**
 
@@ -42,11 +44,11 @@ TLDR; [Watch the 11 minute video](https://www.youtube.com/watch?v=HuIS6jvK8S8) *
 
 3. **Create an Intercom OAuth app**
 
-    Lets go ahead and setup the intercom app we will need!
+    Lets go ahead and setup the Intercom app we will need!
 
-    [Create an intercom OAuth app here](https://app.intercom.com/developers/)
+    [Create an Intercom OAuth app here](https://app.intercom.com/developers/)
 
-    You need to enable a 'test' app in your account. It's a tricky to find but you can create a TEST app in your intercom account under `Settings > General`
+    You need to enable a 'test' app in your account. It's a tricky to find but you can create a TEST app in your Intercom account under `Settings > General`
 
     `https://app.intercom.com/a/apps/your-app-id/settings/general`
 
@@ -75,19 +77,21 @@ TLDR; [Watch the 11 minute video](https://www.youtube.com/watch?v=HuIS6jvK8S8) *
 
 4. **Grab your the required config values**
 
-    We need our intercom app values to configure our function environment variables.
+    We need our Intercom app values to configure our function environment variables.
 
     Navigate back to the main OAuth screen and grab the **App ID**, **Client ID**, and **Client Secret** values. We will need these to run the app locally and when deploying to Netlify.
 
     ![intercom-config-values](https://user-images.githubusercontent.com/532272/42739965-25d15c26-8855-11e8-925b-105c1fa381f5.jpg)
 
-## Running Locally
+## Running the project locally
 
-Set your Intercom app id and OAuth values in your terminal environment
+Because we are using `netlify-lambda` to build & serve functions locally, we can work on this project without needing to redeploy to reflect changes!
 
-After creating your [OAuth app](https://app.intercom.com/developers/) and the steps above, plugin the required environment variables into your local terminal session like so:
+We need to set an Intercom app id and OAuth client id + secret in your terminal environment for the functions to connect to your Intercom app.
 
-On linux/MacOS:
+After creating and configuring your [Intercom OAuth app](https://app.intercom.com/developers/), it's time to plugin the required environment variables into your local terminal session.
+
+On linux/MacOS, run the following command in your terminal:
 
 ```bash
 export INTERCOM_APP_ID=INTERCOM_APP_ID
@@ -95,7 +99,7 @@ export INTERCOM_CLIENT_ID=INTERCOM_CLIENT_ID
 export INTERCOM_CLIENT_SECRET=INTERCOM_CLIENT_SECRET
 ```
 
-or in windows:
+If you are on a window machine, set the environment variable like so:
 
 ```bash
 set INTERCOM_APP_ID=INTERCOM_APP_ID
@@ -109,46 +113,48 @@ Then run the start command
 npm start
 ```
 
-This will boot up our functions to run locally for development. You can now login via your intercom application and see the token data returned.
+This will boot up our functions to run locally for development. You can now login via your Intercom application and see the token data returned.
 
-Making edits to the functions in the `/functions` will hot reload and you can build your app.
+Making edits to the functions in the `/functions` will hot reload the server and you can iterate on building your custom logic.
 
 ## Deploying
 
-Use the one click deploy button to launch this!
+Use the one click "deploy to Netlify" button to launch this!
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/davidwells/intercom-netlify-oauth)
 
-OR connect this repo with your Netlify account and add in your values.
+Alternatively, you can connect this repo with your Netlify account and add in your values.
 
 In `https://app.netlify.com/sites/YOUR-SITE-SLUG/settings/deploys` add the  `INTERCOM_APP_ID`, `INTERCOM_CLIENT_ID`, and `INTERCOM_CLIENT_SECRET` values to the "Build environment variables" section of settings
 
 ![intercom-deploy-settings](https://user-images.githubusercontent.com/532272/42740147-ece388c8-8857-11e8-93af-a1dd721e345a.jpg)
 
-## How it works
+After your site is deployed, you should be able to test your Intercom login flow.
+
+## How it works with Netlify Functions
 
 Once again, serverless functions come to the rescue!
 
-We will be using 2 functions to handle the entire OAuth flow with intercom.
+We will be using 2 functions to handle the entire OAuth flow with Intercom.
 
-Here is a diagram of what is happening:
+**Here is a diagram of what is happening:**
 
-![intercom oauth netlify](https://user-images.githubusercontent.com/532272/42144429-d2717f24-7d6f-11e8-8619-c1bec1562991.png)
+![Intercom oauth netlify](https://user-images.githubusercontent.com/532272/42144429-d2717f24-7d6f-11e8-8619-c1bec1562991.png)
 
-1. First the `auth.js` function is triggered & redirects the user to intercom
-2. The user logs in via intercom and is redirected back to `auth-callback.js` function with an **auth grant code**
-3. `auth-callback.js` takes the **auth grant code** and calls back into intercom's API to exchange it for an **AccessToken**
-4. `auth-callback.js` now has the **AccessToken** to make any API calls it would like back into the intercom App.
+1. First the `auth.js` function is triggered & redirects the user to Intercom
+2. The user logs in via Intercom and is redirected back to `auth-callback.js` function with an **auth grant code**
+3. `auth-callback.js` takes the **auth grant code** and calls back into Intercom's API to exchange it for an **AccessToken**
+4. `auth-callback.js` now has the **AccessToken** to make any API calls it would like back into the Intercom App.
 
 This flow uses the [Authorization Code Grant](https://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.1) flow. For more information on OAuth 2.0, [Watch this video](https://www.youtube.com/watch?v=CPbvxxslDTU)
 
-Let's dive into the individual functions:
+Let's dive into the individual functions and how they work.
 
 ### auth.js function
 
-The `auth.js` function creates an `authorizationURI` using the [`simple-oauth2` npm module](https://www.npmjs.com/package/simple-oauth2) and redirects the user to the intercom login screen.
+The `auth.js` function creates an `authorizationURI` using the [`simple-oauth2` npm module](https://www.npmjs.com/package/simple-oauth2) and redirects the user to the Intercom login screen.
 
-Inside of the `auth.js` function, we set the `header.Location` in the lambda response and that will redirect the user to the `authorizationURI`, a.k.a the intercom oauth login screen.
+Inside of the `auth.js` function, we set the `header.Location` in the lambda response and that will redirect the user to the `authorizationURI`, a.k.a the Intercom oauth login screen.
 
 <!-- AUTO-GENERATED-CONTENT:START (CODE:src=./functions/auth.js&header=/* code from /functions/auth.js */) -->
 <!-- The below code snippet is automatically added from ./functions/auth.js -->
@@ -184,11 +190,11 @@ exports.handler = (event, context, callback) => {
 
 ### auth-callback.js function
 
-The `auth-callback.js` function handles the authorization grant code returned from the successful intercom login.
+The `auth-callback.js` function handles the authorization grant code returned from the successful Intercom login.
 
-It then calls `oauth2.authorizationCode.getToken` to get a valid AccessToken from intercom.
+It then calls `oauth2.authorizationCode.getToken` to get a valid `accessToken` from Intercom.
 
-Once you have the valid accessToken, you can store it and make authenticated calls on behalf of the user to the intercom API.
+Once you have the valid accessToken, you can store it and make authenticated calls on behalf of the user to the Intercom API.
 
 <!-- AUTO-GENERATED-CONTENT:START (CODE:src=./functions/auth-callback.js&header=/* code from /functions/auth-callback.js */) -->
 <!-- The below code snippet is automatically added from ./functions/auth-callback.js -->
