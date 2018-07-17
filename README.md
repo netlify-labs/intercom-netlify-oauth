@@ -252,4 +252,6 @@ exports.handler = (event, context, callback) => {
 ```
 <!-- AUTO-GENERATED-CONTENT:END -->
 
-So as we can see, using two pretty simple lambda functions we can now handle logins via Intercom or any other third party OAuth provider.
+Using two simple lambda functions, we can now handle logins via Intercom or any other third party OAuth provider.
+
+That's pretty nifty!
